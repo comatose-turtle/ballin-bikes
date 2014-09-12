@@ -1,0 +1,59 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  customer: 
+  item_description: MyString
+  est_dollar: 9.99
+  est_by: MyString
+  save_old_parts: false
+  number_of_items: 1
+  status: MyString
+  color: MyString
+  model: MyString
+  make: MyString
+  due_date: 2014-09-10 23:28:06
+  completion_signature: MyText
+  ready_and_notified_date: 2014-09-10
+  work_performed_by: MyString
+  estimate: false
+  customer_comments: MyText
+  authorized: MyText
+  call_customer_if_repair_exceeds_amount: 9.99
+  mechanics_comments_and_recommendations: MyText
+  safety_warning_signature: MyText
+  safety_warning_date: 2014-09-10
+  safety_warning_listed: false
+  safety_warning_accepted: false
+  parts_total: 9.99
+  labor_total: 9.99
+  tax: 9.99
+  total: 9.99
+
+two:
+  customer: 
+  item_description: MyString
+  est_dollar: 9.99
+  est_by: MyString
+  save_old_parts: false
+  number_of_items: 1
+  status: MyString
+  color: MyString
+  model: MyString
+  make: MyString
+  due_date: 2014-09-10 23:28:06
+  completion_signature: MyText
+  ready_and_notified_date: 2014-09-10
+  work_performed_by: MyString
+  estimate: false
+  customer_comments: MyText
+  authorized: MyText
+  call_customer_if_repair_exceeds_amount: 9.99
+  mechanics_comments_and_recommendations: MyText
+  safety_warning_signature: MyText
+  safety_warning_date: 2014-09-10
+  safety_warning_listed: false
+  safety_warning_accepted: false
+  parts_total: 9.99
+  labor_total: 9.99
+  tax: 9.99
+  total: 9.99

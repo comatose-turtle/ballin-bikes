@@ -1,0 +1,140 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Customer:</b>
+  <%= @service.customer %>
+</p>
+
+<p>
+  <b>Item description:</b>
+  <%= @service.item_description %>
+</p>
+
+<p>
+  <b>Est dollar:</b>
+  <%= @service.est_dollar %>
+</p>
+
+<p>
+  <b>Est by:</b>
+  <%= @service.est_by %>
+</p>
+
+<p>
+  <b>Save old parts:</b>
+  <%= @service.save_old_parts %>
+</p>
+
+<p>
+  <b>Number of items:</b>
+  <%= @service.number_of_items %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @service.status %>
+</p>
+
+<p>
+  <b>Color:</b>
+  <%= @service.color %>
+</p>
+
+<p>
+  <b>Model:</b>
+  <%= @service.model %>
+</p>
+
+<p>
+  <b>Make:</b>
+  <%= @service.make %>
+</p>
+
+<p>
+  <b>Due date:</b>
+  <%= @service.due_date %>
+</p>
+
+<p>
+  <b>Completion signature:</b>
+  <%= @service.completion_signature %>
+</p>
+
+<p>
+  <b>Ready and notified date:</b>
+  <%= @service.ready_and_notified_date %>
+</p>
+
+<p>
+  <b>Work performed by:</b>
+  <%= @service.work_performed_by %>
+</p>
+
+<p>
+  <b>Estimate:</b>
+  <%= @service.estimate %>
+</p>
+
+<p>
+  <b>Customer comments:</b>
+  <%= @service.customer_comments %>
+</p>
+
+<p>
+  <b>Authorized:</b>
+  <%= @service.authorized %>
+</p>
+
+<p>
+  <b>Call customer if repair exceeds amount:</b>
+  <%= @service.call_customer_if_repair_exceeds_amount %>
+</p>
+
+<p>
+  <b>Mechanics comments and recommendations:</b>
+  <%= @service.mechanics_comments_and_recommendations %>
+</p>
+
+<p>
+  <b>Safety warning signature:</b>
+  <%= @service.safety_warning_signature %>
+</p>
+
+<p>
+  <b>Safety warning date:</b>
+  <%= @service.safety_warning_date %>
+</p>
+
+<p>
+  <b>Safety warning listed:</b>
+  <%= @service.safety_warning_listed %>
+</p>
+
+<p>
+  <b>Safety warning accepted:</b>
+  <%= @service.safety_warning_accepted %>
+</p>
+
+<p>
+  <b>Parts total:</b>
+  <%= @service.parts_total %>
+</p>
+
+<p>
+  <b>Labor total:</b>
+  <%= @service.labor_total %>
+</p>
+
+<p>
+  <b>Tax:</b>
+  <%= @service.tax %>
+</p>
+
+<p>
+  <b>Total:</b>
+  <%= @service.total %>
+</p>
+
+
+<%= link_to 'Edit', edit_service_path(@service) %> |
+<%= link_to 'Back', services_path %>

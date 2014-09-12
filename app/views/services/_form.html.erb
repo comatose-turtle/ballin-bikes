@@ -1,0 +1,125 @@
+<%= form_for(@service) do |f| %>
+  <% if @service.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+      <ul>
+      <% @service.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :customer %><br />
+    <%= f.text_field :customer %>
+  </div>
+  <div class="field">
+    <%= f.label :item_description %><br />
+    <%= f.text_field :item_description %>
+  </div>
+  <div class="field">
+    <%= f.label :est_dollar %><br />
+    <%= f.text_field :est_dollar %>
+  </div>
+  <div class="field">
+    <%= f.label :est_by %><br />
+    <%= f.text_field :est_by %>
+  </div>
+  <div class="field">
+    <%= f.label :save_old_parts %><br />
+    <%= f.check_box :save_old_parts %>
+  </div>
+  <div class="field">
+    <%= f.label :number_of_items %><br />
+    <%= f.number_field :number_of_items %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :color %><br />
+    <%= f.text_field :color %>
+  </div>
+  <div class="field">
+    <%= f.label :model %><br />
+    <%= f.text_field :model %>
+  </div>
+  <div class="field">
+    <%= f.label :make %><br />
+    <%= f.text_field :make %>
+  </div>
+  <div class="field">
+    <%= f.label :due_date %><br />
+    <%= f.datetime_select :due_date %>
+  </div>
+  <div class="field">
+    <%= f.label :completion_signature %><br />
+    <%= f.text_area :completion_signature %>
+  </div>
+  <div class="field">
+    <%= f.label :ready_and_notified_date %><br />
+    <%= f.date_select :ready_and_notified_date %>
+  </div>
+  <div class="field">
+    <%= f.label :work_performed_by %><br />
+    <%= f.text_field :work_performed_by %>
+  </div>
+  <div class="field">
+    <%= f.label :estimate %><br />
+    <%= f.check_box :estimate %>
+  </div>
+  <div class="field">
+    <%= f.label :customer_comments %><br />
+    <%= f.text_area :customer_comments %>
+  </div>
+  <div class="field">
+    <%= f.label :authorized %><br />
+    <%= f.text_area :authorized %>
+  </div>
+  <div class="field">
+    <%= f.label :call_customer_if_repair_exceeds_amount %><br />
+    <%= f.text_field :call_customer_if_repair_exceeds_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :mechanics_comments_and_recommendations %><br />
+    <%= f.text_area :mechanics_comments_and_recommendations %>
+  </div>
+  <div class="field">
+    <%= f.label :safety_warning_signature %><br />
+    <%= f.text_area :safety_warning_signature %>
+  </div>
+  <div class="field">
+    <%= f.label :safety_warning_date %><br />
+    <%= f.date_select :safety_warning_date %>
+  </div>
+  <div class="field">
+    <%= f.label :safety_warning_listed %><br />
+    <%= f.check_box :safety_warning_listed %>
+  </div>
+  <div class="field">
+    <%= f.label :safety_warning_accepted %><br />
+    <%= f.check_box :safety_warning_accepted %>
+  </div>
+  <div class="field">
+    <%= f.label :parts_total %><br />
+    <%= f.text_field :parts_total %>
+  </div>
+  <div class="field">
+    <%= f.label :labor_total %><br />
+    <%= f.text_field :labor_total %>
+  </div>
+  <div class="field">
+    <%= f.label :tax %><br />
+    <%= f.text_field :tax %>
+  </div>
+  <div class="field">
+    <%= f.label :total %><br />
+    <%= f.text_field :total %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
