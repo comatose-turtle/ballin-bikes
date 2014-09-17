@@ -2,7 +2,8 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
-    @services = Service.all
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @services = @customer ? @customer.services : Service.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +14,8 @@ class ServicesController < ApplicationController
   # GET /services/1
   # GET /services/1.json
   def show
-    @service = Service.find(params[:id])
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +26,8 @@ class ServicesController < ApplicationController
   # GET /services/new
   # GET /services/new.json
   def new
-    @service = Service.new
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @service = @customer ? @customer.services.new : Service.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,13 +37,15 @@ class ServicesController < ApplicationController
 
   # GET /services/1/edit
   def edit
-    @service = Service.find(params[:id])
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
   end
 
   # POST /services
   # POST /services.json
   def create
-    @service = Service.new(params[:service])
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @service = @customer ? @customer.services.new(params[:service]) : Service.new(params[:service])
 
     respond_to do |format|
       if @service.save
@@ -56,7 +61,8 @@ class ServicesController < ApplicationController
   # PUT /services/1
   # PUT /services/1.json
   def update
-    @service = Service.find(params[:id])
+    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
+    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
 
     respond_to do |format|
       if @service.update_attributes(params[:service])

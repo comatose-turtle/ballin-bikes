@@ -1,8 +1,8 @@
-<h1>Listing services</h1>
+<h1>Listing services<%= " for #{@customer.name}" if @customer %></h1>
 
 <table>
   <tr>
-    <th>Customer</th>
+    <%= "<th>Customer</th>".html_safe unless @customer %>
     <th>Item description</th>
     <th>Est dollar</th>
     <th>Est by</th>
@@ -36,7 +36,7 @@
 
 <% @services.each do |service| %>
   <tr>
-    <td><%= service.customer %></td>
+    <%= "<td>".html_safe + service.customer.name + "</td>".html_safe unless @customer %>
     <td><%= service.item_description %></td>
     <td><%= service.est_dollar %></td>
     <td><%= service.est_by %></td>
@@ -46,16 +46,16 @@
     <td><%= service.color %></td>
     <td><%= service.model %></td>
     <td><%= service.make %></td>
-    <td><%= service.due_date %></td>
-    <td><%= service.completion_signature %></td>
+    <td><%= service.due_date.strftime("%Y-%m-%d %H:%M") if service.due_date %></td>
+    <td><%= (image_tag service.completion_signature) if service.completion_signature.present? %></td>
     <td><%= service.ready_and_notified_date %></td>
     <td><%= service.work_performed_by %></td>
     <td><%= service.estimate %></td>
     <td><%= service.customer_comments %></td>
-    <td><%= service.authorized %></td>
+    <td><%= (image_tag service.authorized) if service.authorized.present? %></td>
     <td><%= service.call_customer_if_repair_exceeds_amount %></td>
     <td><%= service.mechanics_comments_and_recommendations %></td>
-    <td><%= service.safety_warning_signature %></td>
+    <td><%= (image_tag service.safety_warning_signature) if service.safety_warning_signature.present? %></td>
     <td><%= service.safety_warning_date %></td>
     <td><%= service.safety_warning_listed %></td>
     <td><%= service.safety_warning_accepted %></td>

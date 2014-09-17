@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :customer %><br />
-    <%= f.text_field :customer %>
+    <%= f.label :customer_id, "Customer" %><br />
+    <%= f.select :customer_id, Customer.all.map{|c| [c.name, c.id]} %>
   </div>
   <div class="field">
     <%= f.label :item_description %><br />
@@ -37,7 +37,7 @@
   </div>
   <div class="field">
     <%= f.label :status %><br />
-    <%= f.text_field :status %>
+    <%= f.select :status, ["Pending", "In Progress", "Hold", "Ready", "Delivered"] %>
   </div>
   <div class="field">
     <%= f.label :color %><br />
@@ -53,15 +53,18 @@
   </div>
   <div class="field">
     <%= f.label :due_date %><br />
-    <%= f.datetime_select :due_date %>
+    <%= f.hidden_field :due_date %>
+    <%= text_field_tag :due_date_date, (f.object.due_date.strftime("%Y-%m-%d") if f && f.object && f.object.due_date), :class => "datepicker" %> —
+    <%= text_field_tag :due_date_time, (f.object.due_date.strftime("%H:%M") if f && f.object && f.object.due_date) %>
   </div>
   <div class="field">
     <%= f.label :completion_signature %><br />
-    <%= f.text_area :completion_signature %>
+    <%= f.hidden_field :completion_signature %>
+    <%= render :partial => "signature_box", :locals => {:f => f, :id => "#{f.object_name.underscore.gsub(/[\]\[]+/, "_")}_completion_signature"} %>
   </div>
   <div class="field">
     <%= f.label :ready_and_notified_date %><br />
-    <%= f.date_select :ready_and_notified_date %>
+    <%= f.text_field :ready_and_notified_date, :class => "datepicker" %>
   </div>
   <div class="field">
     <%= f.label :work_performed_by %><br />
@@ -77,7 +80,8 @@
   </div>
   <div class="field">
     <%= f.label :authorized %><br />
-    <%= f.text_area :authorized %>
+    <%= f.hidden_field :authorized %>
+    <%= render :partial => "signature_box", :locals => {:f => f, :id => "#{f.object_name.underscore.gsub(/[\]\[]+/, "_")}_authorized"} %>
   </div>
   <div class="field">
     <%= f.label :call_customer_if_repair_exceeds_amount %><br />
@@ -89,11 +93,12 @@
   </div>
   <div class="field">
     <%= f.label :safety_warning_signature %><br />
-    <%= f.text_area :safety_warning_signature %>
+    <%= f.hidden_field :safety_warning_signature %>
+    <%= render :partial => "signature_box", :locals => {:f => f, :id => "#{f.object_name.underscore.gsub(/[\]\[]+/, "_")}_safety_warning_signature"} %>
   </div>
   <div class="field">
     <%= f.label :safety_warning_date %><br />
-    <%= f.date_select :safety_warning_date %>
+    <%= f.text_field :safety_warning_date, :class => "datepicker" %>
   </div>
   <div class="field">
     <%= f.label :safety_warning_listed %><br />
@@ -103,23 +108,120 @@
     <%= f.label :safety_warning_accepted %><br />
     <%= f.check_box :safety_warning_accepted %>
   </div>
-  <div class="field">
-    <%= f.label :parts_total %><br />
-    <%= f.text_field :parts_total %>
-  </div>
-  <div class="field">
-    <%= f.label :labor_total %><br />
-    <%= f.text_field :labor_total %>
-  </div>
-  <div class="field">
-    <%= f.label :tax %><br />
-    <%= f.text_field :tax %>
-  </div>
-  <div class="field">
-    <%= f.label :total %><br />
-    <%= f.text_field :total %>
-  </div>
+  
+  <table id="line_items">
+    <tr>
+      <th>Parts or Service</th>
+      <th>Parts</th>
+      <th>Labor</th>
+    </tr>
+  <%= f.fields_for :line_items do |ff| %>
+    <tr>
+      <td>
+        <%= ff.text_field :name, ({:class => "preset", :tabindex => -1} if Service::PRESET_LINE_ITEM_NAMES.include?(ff.object.name)) %>
+        <% Service.preset_line_item_options(ff.object.name).each do |opt| %>
+          <%= label_tag "#{ff.object_name.underscore.gsub(/[\]\[]+/, "_")}_options_#{opt.underscore}", opt %>
+          <%= check_box_tag ff.object_name + "options[]", opt, ff.object.options.include?(opt), :id => "#{ff.object_name.underscore.gsub(/[\]\[]+/, "_")}_options_#{opt.underscore}" %>
+        <% end %>
+      </td>
+      <td><%= ff.text_field :parts_cost, :class => "parts_cost" %></td>
+      <td><%= ff.text_field :labor_cost, :class => "labor_cost" %></td>
+    </tr>
+  <% end %>
+    <tr>
+      <td></td>
+      <td><%= f.label :parts_total, "Parts" %></td>
+      <td><%= f.text_field :parts_total, :class => "total_field", :tabindex => -1 %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.label :labor_total, "Labor" %></td>
+      <td><%= f.text_field :labor_total, :class => "total_field", :tabindex => -1 %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.label :tax %></td>
+      <td><%= f.text_field :tax, :class => "total_field" %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.label :total %></td>
+      <td><%= f.text_field :total, :class => "total_field", :tabindex => -1 %></td>
+    </tr>
+  </table>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
+<% end %>
+
+<%= content_for :head do %>
+  <script>
+    $(document).ready(function(){
+      $(".signature_button").click(function(){
+        $(this).next(".signature_wrapper").slideDown(function(){
+          var siggy = $(this).find(".signature_box");
+          
+          if(!siggy.data("init")) {
+            var val = $("#" + siggy.attr("id").slice(0, -4)).val();
+            siggy.jSignature().data("init", true);
+            
+            if(val != "")
+              siggy.jSignature("setData", val);
+          }
+        });
+        
+        return false;
+      });
+      $(".signature_done_button").click(function(){
+        $(this).parents(".signature_wrapper").slideUp();
+        return false;
+      });
+      $(".signature_box").change(function(){
+        $("#" + $(this).attr("id").slice(0, -4)).val($(this).jSignature("getData"));
+      });
+      
+      function calc_due_date(){
+        $("#service_due_date").val($("#due_date_date").val() + " " + $("#due_date_time").val());
+      }
+      
+      $(".datepicker").datepicker({ dateFormat: 'yy-mm-dd' });
+      $("#due_date_time").clockpicker({ autoclose: true }).change(calc_due_date);
+      $("#due_date_date").change(calc_due_date);
+      
+      function as_dollar_amount(num) {
+        var str = String(num);
+        while(str.length <3)
+          str = "0" + str;
+        return str.slice(0, -2) + "." + str.slice(-2);
+      }
+      
+      function calc_totals(){
+        var parts_total = 0, labor_total = 0, this_parts, this_labor;
+        $(".parts_cost").each(function(){
+          this_parts = Math.round(parseFloat($(this).val()) * 100);
+          if(!isNaN(this_parts))
+            parts_total += this_parts;
+        });
+        $(".labor_cost").each(function(){
+          this_labor = Math.round(parseFloat($(this).val()) * 100);
+          if(!isNaN(this_labor))
+            labor_total += this_labor;
+        });
+        
+        $("#service_parts_total").val(as_dollar_amount(parts_total));
+        $("#service_labor_total").val(as_dollar_amount(labor_total));
+        
+        var taxi = Math.round(parseFloat($("#service_tax").val()) * 100)
+        var total = parts_total + labor_total + (isNaN(taxi) ? 0 : taxi);
+        $("#service_total").val(as_dollar_amount(total));
+      }
+      
+      $("#service_parts_total, #service_labor_total, #service_total, .preset").focus(function(){$(this).blur()});
+      $("#line_items").on("change", ".parts_cost, .labor_cost, #service_tax", function(){
+        $(this).val($(this).val().replace(/[\$ ]/g,""));
+        calc_totals();
+      });
+    });
+  </script>
 <% end %>

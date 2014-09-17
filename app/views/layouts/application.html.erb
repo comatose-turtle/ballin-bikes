@@ -5,9 +5,20 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "jSignature/jSignature.min" %>
+  <%= javascript_include_tag "jquery-ui/jquery-ui.min" %>
+  <%= javascript_include_tag "clockpicker/jquery-clockpicker.min" %>
   <%= csrf_meta_tags %>
+  <%= yield :head %>
 </head>
 <body>
+
+<header>
+  <nav>
+    <%= link_to "Home", root_path %>
+    <%= link_to "Customers", customers_path %>
+    <%= link_to "Services", services_path %>
+  </nav>
+</header>
 
 <%= yield %>
 

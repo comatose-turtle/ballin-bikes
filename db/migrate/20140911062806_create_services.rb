@@ -24,10 +24,10 @@ class CreateServices < ActiveRecord::Migration
       t.date :safety_warning_date
       t.boolean :safety_warning_listed
       t.boolean :safety_warning_accepted
-      t.decimal :parts_total, :precision => 8, :scale => 2
-      t.decimal :labor_total, :precision => 8, :scale => 2
-      t.decimal :tax, :precision => 8, :scale => 2
-      t.decimal :total, :precision => 8, :scale => 2
+      t.decimal :parts_total, :precision => 8, :scale => 2, :default => 0.0, :null => false
+      t.decimal :labor_total, :precision => 8, :scale => 2, :default => 0.0, :null => false
+      t.decimal :tax, :precision => 8, :scale => 2, :default => 0.0, :null => false
+      t.decimal :total, :precision => 8, :scale => 2, :default => 0.0, :null => false
 
       t.timestamps
     end

@@ -2,7 +2,7 @@
 
 <p>
   <b>Customer:</b>
-  <%= @service.customer %>
+  <%= @service.customer.name %>
 </p>
 
 <p>
@@ -57,7 +57,7 @@
 
 <p>
   <b>Completion signature:</b>
-  <%= @service.completion_signature %>
+  <%= (image_tag @service.completion_signature) if @service.completion_signature.present? %>
 </p>
 
 <p>
@@ -82,7 +82,7 @@
 
 <p>
   <b>Authorized:</b>
-  <%= @service.authorized %>
+  <%= (image_tag @service.authorized) if @service.authorized.present? %>
 </p>
 
 <p>
@@ -97,7 +97,7 @@
 
 <p>
   <b>Safety warning signature:</b>
-  <%= @service.safety_warning_signature %>
+  <%= (image_tag @service.safety_warning_signature) if @service.safety_warning_signature.present? %>
 </p>
 
 <p>

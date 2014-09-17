@@ -1,8 +1,10 @@
 BallinBikes::Application.routes.draw do
+
+  root :to => "services#index"
   resources :services
-
-
-  resources :customers
+  resources :customers do
+    resources :services
+  end
 
 
   # The priority is based upon order of creation:

@@ -1,3 +1,42 @@
 // Place all the styles related to the Services controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.signature_wrapper {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background: white;
+  border-top: 4px solid black;
+  text-align: center;
+  
+  button {
+    margin: 10px;
+  }
+}
+
+.signature_box {
+  margin: 10px;
+  border: 1px solid lightgrey;
+}
+
+button {
+  width: 200px;
+  height: 50px;
+  text-align: center;
+}
+
+img {
+  width: 100px;
+}
+
+.preset {
+  border: none;
+}
+
+.parts_cost, .labor_cost, .total_field {
+  text-align: right;
+}
