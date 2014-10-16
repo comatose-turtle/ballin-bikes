@@ -1,0 +1,3 @@
+<% reverse_order ||= false %>
+<% sort_desc = (params[:sort_by] == column_name + (reverse_order ? " DESC" : "")) ^ reverse_order %>
+<th<%= (sort_desc ? ' class="down_arrow"' : ' class="up_arrow"').html_safe if params[:sort_by] =~ /^#{column_name}/ %>><%= link_to column_title, url_for( :sort_by => "#{column_name}#{sort_desc ? " DESC" : ""}" ) %></th>

@@ -2,9 +2,14 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
-    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
-    @services = @customer ? @customer.services : Service.all
-
+    @services = Service
+    @services = @services.joins(:customer) if params[:sort_by] =~ /^customers.name/
+    @services = @services.order(params[:sort_by]) if params[:sort_by].present?
+    @services = @services.where("services.id LIKE ? OR customers.name LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%") if params[:search].present?
+    
+    @services = @services.all
+    @republish_params = {:sort_by => params[:sort_by], :search => params[:search]}
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @services }
@@ -14,8 +19,7 @@ class ServicesController < ApplicationController
   # GET /services/1
   # GET /services/1.json
   def show
-    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
-    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
+    @service = Service.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -28,6 +32,7 @@ class ServicesController < ApplicationController
   def new
     @customer = Customer.find(params[:customer_id]) if params[:customer_id]
     @service = @customer ? @customer.services.new : Service.new
+    @service.build_customer unless @customer
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,15 +42,14 @@ class ServicesController < ApplicationController
 
   # GET /services/1/edit
   def edit
-    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
-    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
+    @service = Service.find(params[:id])
   end
 
   # POST /services
   # POST /services.json
   def create
     @customer = Customer.find(params[:customer_id]) if params[:customer_id]
-    @service = @customer ? @customer.services.new(params[:service]) : Service.new(params[:service])
+    @service = @customer ? @customer.services.build(params[:service]) : Service.new(params[:service])
 
     respond_to do |format|
       if @service.save
@@ -61,8 +65,7 @@ class ServicesController < ApplicationController
   # PUT /services/1
   # PUT /services/1.json
   def update
-    @customer = Customer.find(params[:customer_id]) if params[:customer_id]
-    @service = @customer ? @customer.services.find(params[:id]) : Service.find(params[:id])
+    @service = Service.find(params[:id])
 
     respond_to do |format|
       if @service.update_attributes(params[:service])

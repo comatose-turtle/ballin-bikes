@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <b>ID:</b>
+  <%= @service.id %>
+</p>
+
+<p>
   <b>Customer:</b>
   <%= @service.customer.name %>
 </p>
@@ -71,17 +76,12 @@
 </p>
 
 <p>
-  <b>Estimate:</b>
-  <%= @service.estimate %>
-</p>
-
-<p>
   <b>Customer comments:</b>
   <%= @service.customer_comments %>
 </p>
 
 <p>
-  <b>Authorized:</b>
+  <b>Customer Release Authorization:</b>
   <%= (image_tag @service.authorized) if @service.authorized.present? %>
 </p>
 

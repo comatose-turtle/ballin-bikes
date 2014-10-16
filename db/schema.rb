@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140916221032) do
+ActiveRecord::Schema.define(:version => 20141015234633) do
 
   create_table "customers", :force => true do |t|
     t.string   "name"
@@ -23,8 +23,9 @@ ActiveRecord::Schema.define(:version => 20140916221032) do
     t.string   "work_phone"
     t.string   "email"
     t.boolean  "mailing_list"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+    t.string   "preferred_contact_method"
   end
 
   create_table "line_items", :force => true do |t|
@@ -42,8 +43,8 @@ ActiveRecord::Schema.define(:version => 20140916221032) do
   create_table "services", :force => true do |t|
     t.integer  "customer_id"
     t.string   "item_description"
-    t.decimal  "est_dollar",                             :precision => 8, :scale => 2
-    t.string   "est_by"
+    t.decimal  "est_dollar",                                            :precision => 8, :scale => 2
+    t.date     "est_by",                                 :limit => 255
     t.boolean  "save_old_parts"
     t.integer  "number_of_items"
     t.string   "status"
@@ -54,23 +55,29 @@ ActiveRecord::Schema.define(:version => 20140916221032) do
     t.text     "completion_signature"
     t.date     "ready_and_notified_date"
     t.string   "work_performed_by"
-    t.boolean  "estimate"
     t.text     "customer_comments"
     t.text     "authorized"
-    t.decimal  "call_customer_if_repair_exceeds_amount", :precision => 8, :scale => 2
+    t.decimal  "call_customer_if_repair_exceeds_amount",                :precision => 8, :scale => 2
     t.text     "mechanics_comments_and_recommendations"
     t.text     "safety_warning_signature"
     t.date     "safety_warning_date"
     t.boolean  "safety_warning_listed"
     t.boolean  "safety_warning_accepted"
-    t.decimal  "parts_total",                            :precision => 8, :scale => 2
-    t.decimal  "labor_total",                            :precision => 8, :scale => 2
-    t.decimal  "tax",                                    :precision => 8, :scale => 2
-    t.decimal  "total",                                  :precision => 8, :scale => 2
-    t.datetime "created_at",                                                           :null => false
-    t.datetime "updated_at",                                                           :null => false
+    t.decimal  "parts_total",                                           :precision => 8, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "labor_total",                                           :precision => 8, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "tax",                                                   :precision => 8, :scale => 2, :default => 0.0, :null => false
+    t.decimal  "total",                                                 :precision => 8, :scale => 2, :default => 0.0, :null => false
+    t.datetime "created_at",                                                                                           :null => false
+    t.datetime "updated_at",                                                                                           :null => false
   end
 
   add_index "services", ["customer_id"], :name => "index_services_on_customer_id"
+
+  create_table "settings", :force => true do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

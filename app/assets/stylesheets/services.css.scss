@@ -5,6 +5,7 @@
 .signature_wrapper {
   display: none;
   position: fixed;
+  z-index: 100;
   left: 0;
   right: 0;
   bottom: 0;
@@ -31,12 +32,166 @@ button {
 
 img {
   width: 100px;
+  vertical-align: middle;
+  
+  &.bigger_preview {
+    width: 200px;
+  }
 }
 
-.preset {
+#service_ticket {
+  border: 1px solid black;
+  display: inline-block;
+  
+  h2 {
+    border-bottom: 1px solid black;
+    margin: 0;
+    padding: 10px;
+    background: #ccc;
+  }
+  
+  div.field {
+    border-bottom: 1px solid black;
+    padding: 5px;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+    
+    div.field {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      border: none;
+      border-left: 1px solid black;
+      width: 75px;
+      font-size: 10px;
+      line-height: 11px;
+    }
+    
+    &.separator {
+      background: #ccc;
+    }
+  }
+  
+  .twofer {
+    div.field {
+      width: 50%;
+    }
+  }
+  .threefer {
+    div.field {
+      width: 33.33%;
+    }
+  }
+  .twofer, .threefer {
+    div.field {
+      float: left;
+      border-right: 1px solid black;
+      height: 54px;
+      
+      &:last-child {
+        border-right: none;
+      }
+    }
+    &::after {
+      content: "";
+      clear: both;
+      display: block;
+    }
+  }
+  
+  table {
+    margin: 10px;
+    
+    th {
+      background: #ccc;
+    }
+  }
+}
+
+.preset, #service_parts_total, #service_labor_total, #service_total {
   border: none;
 }
 
 .parts_cost, .labor_cost, .total_field {
   text-align: right;
+}
+
+.remove_line_item {
+  text-decoration: none;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: all linear 0.1s;
+  
+  &:hover {
+    background: #ddd;
+    color: black;
+  }
+}
+
+#customer_name_field {
+  position: relative;
+}
+#customer_reselector {
+  display: none;
+}
+#customer_results {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  background: white;
+  border: 1px solid black;
+  top: 100%;
+  height: 200px;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  
+  .found_customer {
+    padding: 7px;
+    
+    &.highlighted, &:hover {
+      color: white;
+      background: blue;
+    }
+  }
+}
+
+#service_table {
+  th, td {
+    padding: 5px;
+  }
+  th a {
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+      color: inherit;
+      background: inherit;
+    }
+    
+    &:visited {
+      color: inherit;
+    }
+  }
+}
+
+th.down_arrow::after, th.up_arrow::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  border: 5px solid transparent;
+  vertical-align: middle;
+}
+th.down_arrow::after {
+  border-top: 5px solid black;
+  border-bottom-width: 0;
+}
+th.up_arrow::after {
+  border-bottom: 5px solid black;
+  border-top-width: 0;
 }

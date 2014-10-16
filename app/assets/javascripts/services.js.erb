@@ -1,0 +1,92 @@
+var customertimer;
+var last_customer_search_val = "";
+
+function remove_line_item(link) {
+  if(confirm("Really destroy this item?")) {
+    $(link).prev("input[type=hidden]").val("1");
+    $(link).closest("tr").hide();
+    
+    calc_totals();
+  }
+  
+  return false;
+}
+
+function add_line_item(link, content) {
+  var new_id = new Date().getTime();
+  $(link).closest('tr').before(content.replace(/new_line_item/g, new_id));
+  
+  return false;
+}
+
+function as_dollar_amount(num) {
+  var str = String(num);
+  while(str.length <3)
+    str = "0" + str;
+  return str.slice(0, -2) + "." + str.slice(-2);
+}
+
+function calc_totals(){
+  var parts_total = 0, labor_total = 0, this_parts, this_labor;
+  $(".parts_cost:visible").each(function(){
+    this_parts = Math.round(parseFloat($(this).val()) * 100);
+    if(!isNaN(this_parts))
+      parts_total += this_parts;
+  });
+  $(".labor_cost:visible").each(function(){
+    this_labor = Math.round(parseFloat($(this).val()) * 100);
+    if(!isNaN(this_labor))
+      labor_total += this_labor;
+  });
+  
+  $("#service_parts_total").val(as_dollar_amount(parts_total));
+  $("#service_labor_total").val(as_dollar_amount(labor_total));
+  
+  var taxi = Math.round(parseFloat($("#service_tax").val()) * 100)
+  var total = parts_total + labor_total + (isNaN(taxi) ? 0 : taxi);
+  $("#service_total").val(as_dollar_amount(total));
+}
+
+function populate_customer(attributes) {
+  for(var attr in attributes) {
+    if(attributes.hasOwnProperty(attr)) {
+      $("#service_customer_attributes_" + attr).val(attributes[attr]);//.attr("disabled", true);
+    }
+  }
+  $("#service_customer_attributes_name").attr("disabled", true);
+  $("#customer_reselector").show();
+}
+
+function search_customers() {
+  q = $("#service_customer_attributes_name").val();
+  if(q == "")
+    return false;
+  searching = $.post("<%= BallinBikes::Application.routes.url_helpers.search_customers_path %>", { q: q },
+    function(data) {
+      var results_div = $("#customer_results").html("");
+      $.each(data.customers, function(i, cust) {
+        results_div.append($('<div class="found_customer">')
+                            .data("attributes", cust)
+                            .append($('<span>').html(cust.name)));
+      });
+      if($("div", results_div).length > 0)
+        results_div.show();
+    }, "json"
+  );
+}
+
+function select_customer_from_search(e) {
+  var theCustomerDiv = $(e.currentTarget).is(".found_customer") ? $(e.currentTarget) : $("#customer_results").find(".found_customer.highlighted");
+  var name = $("span", theCustomerDiv).html();
+  
+  populate_customer(theCustomerDiv.data("attributes"));
+  $("#customer_results").hide();
+}
+
+function clear_customer() {
+  $("[id^=service_customer_attributes_]").removeAttr("disabled");
+  $("#service_customer_attributes_name").val("");
+  $("#service_customer_attributes_id").val("");
+  $("#customer_reselector").hide();
+}
+

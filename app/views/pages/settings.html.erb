@@ -1,0 +1,13 @@
+<h1>Settings</h1>
+<%= form_tag settings_path, :method => :put do %>
+  <% @settings.each do |setting| %>
+    <%= fields_for "setting[#{setting.id}]", setting do |ff| %>
+      <p>
+        <%= ff.label :value, ff.object.name %>
+        <%= ff.text_field :value %>
+      </p>
+    <% end %>
+  <% end %>
+  
+  <%= submit_tag "Save" %>
+<% end %>

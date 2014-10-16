@@ -13,12 +13,27 @@
 <body>
 
 <header>
-  <nav>
+  <nav id="side_links">
+    <%= link_to "New Customer", new_customer_path %>
+    <%= link_to "New Service Ticket", new_service_path %>
+    <%= link_to "Change Tax Rate", settings_path %>
+  </nav>
+  <nav id="main_links">
     <%= link_to "Home", root_path %>
     <%= link_to "Customers", customers_path %>
-    <%= link_to "Services", services_path %>
+    <%= link_to "Service Tickets", services_path %>
   </nav>
 </header>
+
+<% if flash.present? %>
+  <div id="flash_messages">
+    <% flash.each do |type, message| %>
+      <div class="<%= type %>">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
 <%= yield %>
 

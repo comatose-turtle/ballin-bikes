@@ -1,0 +1,36 @@
+<h1>Listing service tickets<%= " for #{@customer.name}" if @customer %></h1>
+
+<table id="service_table">
+  <tr>
+    <%= render(:partial => 'list_table_header', :locals => {:column_title => "Customer Name", :column_name => "customers.name"}) unless @customer %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "Drop-Off Date", :column_name => "services.created_at"} %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "Due date", :column_name => "services.due_date"} %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "Done date", :column_name => "services.ready_and_notified_date"} %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "Status", :column_name => "services.status"} %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "Make", :column_name => "services.make"} %>
+    <%= render :partial => 'list_table_header', :locals => {:column_title => "ID #", :column_name => "services.id"} %>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @services.each do |service| %>
+  <tr>
+    <%= "<td>".html_safe + service.customer.name + "</td>".html_safe unless @customer %>
+    <td><%= service.created_at.strftime("%Y-%m-%d %H:%M") if service.created_at %></td>
+    <td><%= service.due_date.strftime("%Y-%m-%d %H:%M") if service.due_date %></td>
+    <td><%= service.ready_and_notified_date.strftime("%Y-%m-%d %H:%M") if service.ready_and_notified_date %></td>
+    <td><%= service.status %></td>
+    <td><%= service.make %></td>
+    <td><%= service.id %></td>
+    <%#= (image_tag service.completion_signature) if service.completion_signature.present? %>
+    <td><%= link_to 'Show', service %></td>
+    <td><%= link_to 'Edit', edit_service_path(service) %></td>
+    <td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Service Ticket', [:new, @customer, :service].compact %>

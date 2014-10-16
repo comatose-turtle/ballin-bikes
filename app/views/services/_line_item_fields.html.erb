@@ -1,0 +1,15 @@
+<% preset = Service::PRESET_LINE_ITEM_NAMES.include?(f.object.name) %>
+<tr>
+  <td>
+    <%= f.text_field :name, (preset ? {:class => "preset", :tabindex => -1} : {}) %>
+    <% Service.preset_line_item_options(f.object.name).each do |opt| %>
+      <%= label_tag "#{f.object_name.underscore.gsub(/[\]\[]+/, "_")}_options_#{opt.underscore}", opt %>
+      <%= check_box_tag f.object_name + "options[]", opt, f.object.options.include?(opt), :id => "#{f.object_name.underscore.gsub(/[\]\[]+/, "_")}_options_#{opt.underscore}" %>
+    <% end %>
+  </td>
+  <td><%= f.text_field :parts_cost, :class => "parts_cost" %></td>
+  <td><%= f.text_field :labor_cost, :class => "labor_cost" %></td>
+  <% if !preset %>
+    <td><%= link_to_remove_line_item('&nbsp;X&nbsp;'.html_safe, f) %></td>
+  <% end %>
+</tr>

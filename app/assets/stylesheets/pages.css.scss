@@ -1,0 +1,38 @@
+// Place all the styles related to the Pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+nav {
+  a {
+    padding: 7px;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 7px 7px;
+    display: inline-block;
+    
+    &:hover {
+      color: #fff;
+      background-color: #000;
+    }
+  }
+  
+  &#side_links {
+    float: right;
+  }
+}
+
+#flash_messages {
+  margin: 5px;
+  
+  div {
+    display: inline-block;
+    padding: 7px;
+    
+    &.notice {
+      color: rgb(24, 196, 0);
+    }
+    &.error {
+      color: rgb(202, 5, 5);
+    }
+  }
+}

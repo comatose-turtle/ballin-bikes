@@ -1,0 +1,50 @@
+<div class="threefer">
+  <div class="field" id="customer_name_field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :autocomplete => "off" %>
+    <div id="customer_results"></div>
+    <% if @service && @service.new_record? %>
+      <%= link_to_function "Reselect", "clear_customer()", :id => "customer_reselector" %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :address %><br />
+    <%= f.text_field :address %>
+  </div>
+  <div class="field">
+    <%= f.label :preferred_contact_method %><br />
+    <%= f.select :preferred_contact_method, ["Phone Call", "Text", "Email"] %>
+  </div>
+</div>
+<div class="threefer">
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :state %><br />
+    <%= f.text_field :state %>
+  </div>
+  <div class="field">
+    <%= f.label :zip %><br />
+    <%= f.text_field :zip %>
+  </div>
+</div>
+<div class="threefer">
+  <div class="field">
+    <%= f.label :home_phone %><br />
+    <%= f.text_field :home_phone %>
+  </div>
+  <div class="field">
+    <%= f.label :work_phone %><br />
+    <%= f.text_field :work_phone %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+    <div class="field">
+      <%= f.label :mailing_list %><br />
+      <%= f.check_box :mailing_list %>
+    </div>
+  </div>
+</div>

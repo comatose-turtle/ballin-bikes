@@ -1,9 +1,13 @@
 BallinBikes::Application.routes.draw do
 
+  get "settings" => "pages#settings"
+  put "settings" => "pages#save_settings"
+
   root :to => "services#index"
   resources :services
   resources :customers do
-    resources :services
+    resources :services, :only => [:new, :create]
+    post :search, :on => :collection
   end
 
 

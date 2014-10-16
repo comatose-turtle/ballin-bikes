@@ -1,10 +1,27 @@
 class Service < ActiveRecord::Base
-  attr_accessible :authorized, :call_customer_if_repair_exceeds_amount, :color, :completion_signature, :customer_id, :customer, :customer_comments, :due_date, :est_by, :est_dollar, :estimate, :item_description, :labor_total, :make, :mechanics_comments_and_recommendations, :model, :number_of_items, :parts_total, :ready_and_notified_date, :safety_warning_accepted, :safety_warning_date, :safety_warning_listed, :safety_warning_signature, :save_old_parts, :status, :tax, :total, :work_performed_by, :line_items_attributes
+  attr_accessible :authorized, :call_customer_if_repair_exceeds_amount, :color, :completion_signature, :customer_id, :customer, :customer_comments, :due_date, :est_by, :est_dollar, :item_description, :labor_total, :make, :mechanics_comments_and_recommendations, :model, :number_of_items, :parts_total, :ready_and_notified_date, :safety_warning_accepted, :safety_warning_date, :safety_warning_listed, :safety_warning_signature, :save_old_parts, :status, :tax, :total, :work_performed_by, :line_items_attributes, :customer_attributes
   
   belongs_to :customer
-  has_many :line_items, :inverse_of => :service
-  accepts_nested_attributes_for :line_items
+  accepts_nested_attributes_for :customer, :update_only => true
+  validates :customer, :presence => true
 
+  has_many :line_items, :inverse_of => :service, :dependent => :destroy
+  accepts_nested_attributes_for :line_items, :allow_destroy => true, :reject_if => lambda {|l| (l[:name].blank? || PRESET_LINE_ITEM_NAMES.include?(l[:name])) && l[:options].blank? && l[:parts_cost].blank? && l[:labor_cost].blank? }
+
+#  def assign_attributes(value, opts)
+#    customer_atts = value.delete(:customer_attributes)
+#    super(value, opts)
+#    self.customer.reload
+#    self.customer_attributes = customer_atts
+#  end
+
+  def customer_attributes=(attrs)    
+    self.customer = Customer.find_or_initialize_by_id(attrs.delete(:id))
+    self.customer.attributes = attrs
+  end
+
+  STATUS_LIST = ["Pending", "In Progress", "Hold", "Ready", "Notified", "Received", "Paid-Not Received", "Waiting on Parts", "Other"]
+  
   PRESET_LINE_ITEM_NAMES =
     ["Install Tube", "Install Tire", "Adjust Brakes", "Adjust Gears", "Replace Cables", "Replace Brake Pads", "Adjust Bearings", "True Wheel", "Respoke Wheel", "Overhaul", "Bike Tune-Up", "Bike Overhaul", "Install", "Shop Supply Fee"]
   

@@ -6,45 +6,22 @@
 </p>
 
 <p>
-  <b>Address:</b>
-  <%= @customer.address %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @customer.city %>
-</p>
-
-<p>
-  <b>State:</b>
-  <%= @customer.state %>
-</p>
-
-<p>
-  <b>Zip:</b>
-  <%= @customer.zip %>
+  <b>Address:</b><br />
+  <%= @customer.address %><br />
+  <%= @customer.city %>, <%= @customer.state %> <%= @customer.zip %><br />
 </p>
 
 <p>
   <b>Home phone:</b>
-  <%= @customer.home_phone %>
-</p>
-
-<p>
+  <%= @customer.home_phone %><br />
   <b>Work phone:</b>
-  <%= @customer.work_phone %>
-</p>
-
-<p>
+  <%= @customer.work_phone %><br />
   <b>Email:</b>
-  <%= @customer.email %>
-</p>
-
-<p>
+  <%= @customer.email %><br />
   <b>Mailing list:</b>
   <%= @customer.mailing_list %>
 </p>
 
+<%= render "services/list_table" %>
 
-<%= link_to 'Edit', edit_customer_path(@customer) %> |
-<%= link_to 'Back', customers_path %>
+<%= link_to 'Edit Customer', edit_customer_path(@customer) %>

@@ -14,6 +14,7 @@ class CustomersController < ApplicationController
   # GET /customers/1.json
   def show
     @customer = Customer.find(params[:id])
+    @services = @customer.services
 
     respond_to do |format|
       format.html # show.html.erb
@@ -78,6 +79,14 @@ class CustomersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to customers_url }
       format.json { head :no_content }
+    end
+  end
+
+  def search
+    @customers = Customer.where('LOWER(name) LIKE ?', "%#{params[:q].downcase}%")
+
+    respond_to do |format|
+      format.json { render json: {:customers => @customers} }
     end
   end
 end
